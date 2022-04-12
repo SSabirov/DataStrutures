@@ -10,7 +10,7 @@ ListNode *head=NULL ;
 ListNode *appendNode(ListNode* head, int num);
 ListNode *insertNode(ListNode* head, int num);
 ListNode *deleteNode(ListNode* head, int num);
-ListNode* deleteAll(ListNode* head, int num);
+ListNode* deleteAll(ListNode* head);
 void displayList(ListNode* head);
 
 
@@ -120,7 +120,7 @@ ListNode* deleteNode(ListNode* head, int num)
 	return head;
 }
 
-ListNode* deleteAll(ListNode* head, int num)
+ListNode* deleteAll(ListNode* head)
 {
 	ListNode* nodePtr, * nextNode;
 	nodePtr = head;
