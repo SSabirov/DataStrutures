@@ -1,0 +1,195 @@
+#include<iostream>
+using namespace std;
+
+struct DlistNode
+{
+	int value;
+	struct DlistNode* next;
+	struct DlistNode* prev;
+};
+
+
+DlistNode* head = NULL;
+
+DlistNode* appendNode(DlistNode* head, int num);
+DlistNode* insertNode(DlistNode* head, int num);
+DlistNode* deleteNode(DlistNode* head, int num);
+DlistNode* deleteList(DlistNode* head);
+void displayList(DlistNode* head);
+
+
+int main() {
+	int tesValue;
+	int numOfValues;
+	cout << "Number of values\n";
+	cin >> numOfValues;
+	for  (int i= 0; i< numOfValues; i++)
+	{
+		cout << "Append a value\n";
+		cin >> tesValue;
+		appendNode(head, numOfValues);
+	}
+	displayList(head);
+
+	cout << "Number of values\n";
+	cin >> numOfValues;
+	for (int i = 0; i < numOfValues; i++)
+	{
+		cout << "Insert value\n";
+		cin >> tesValue;
+		insertNode(head, numOfValues);
+	}
+	displayList(head);
+	deleteNode(head, 7);
+	displayList(head);
+	deleteList(head);
+	displayList(head);
+
+
+}
+
+
+DlistNode* appendNode(DlistNode* head, int num)
+{
+	DlistNode* newNode, * nodePtr;
+	newNode = new DlistNode;
+	newNode->value = num;
+	newNode->next = NULL;
+	newNode->prev = NULL;
+
+	if (head == NULL)
+	{
+		head = newNode;
+	}
+	else
+	{
+		nodePtr = head;
+		while (nodePtr->next != NULL)
+		{
+			nodePtr = nodePtr->next;
+			nodePtr->next = newNode;
+			newNode->prev = nodePtr;
+		}
+	}
+	return head;
+}
+
+
+DlistNode* insertNode(DlistNode* head, int num)
+{
+	DlistNode* newNode, * nodePtr;
+	
+	newNode->value = num;
+	newNode->next = NULL;
+	newNode->prev = NULL;
+
+	
+	if (head == NULL)
+	{
+		head = newNode;
+	}
+	else
+	{
+		nodePtr = head;
+		while (nodePtr->next != NULL && nodePtr->value < num)
+		{
+			nodePtr = nodePtr->next;
+			if (nodePtr == head && nodePtr->value > num)
+			{
+				nodePtr->prev = newNode;
+				newNode->next = nodePtr;
+				head = newNode;
+
+			}
+			else if (nodePtr->next == NULL && nodePtr->value < num)
+			{
+				newNode->prev = nodePtr;
+				nodePtr->next = newNode;
+
+			}
+			else
+			{
+				newNode->next = nodePtr;
+				newNode->prev = nodePtr->prev;
+				nodePtr->next = newNode;
+				nodePtr->prev = newNode;
+			}
+
+		}
+	}
+	return head;
+}
+
+
+DlistNode* deleteNode(DlistNode* head, int num)
+{
+	DlistNode* nodePtr;
+	nodePtr = head;
+
+	if (head == NULL)
+	{
+		return head;
+	}
+	else if (head->value == num)
+	{
+		head = nodePtr->next;
+		if (head != NULL)
+		{
+			head->prev = NULL;
+			delete nodePtr;
+			return head;
+		}
+	}
+	else
+	{
+		while (nodePtr->next != NULL && nodePtr->value != num)
+		{
+			nodePtr = nodePtr->next;
+			if (nodePtr->value == num)
+			{
+				nodePtr->prev->next = nodePtr->next;
+				if (nodePtr != NULL)
+				{
+					nodePtr->next->prev = nodePtr->prev;
+					delete nodePtr;
+				}
+			}
+		}
+	}
+	return head;
+}
+
+DlistNode* deleteList(DlistNode* head)
+{
+	DlistNode* nodePtr = head;
+	if (head==NULL)
+	{
+		return head;
+	}
+	else
+	{
+		while (head->next != NULL)
+		{
+			nodePtr = head;
+			head = head->next;
+			head->prev = NULL;
+			delete nodePtr;
+		}
+	}
+	
+	return head;
+}
+
+
+void displayList(DlistNode* head)
+{
+	DlistNode* Tptr = head;
+	if (head == NULL) cout << "List is empty \n";
+	while (Tptr != NULL)
+	{
+		cout << Tptr->value << endl;
+		Tptr = Tptr->next;
+	}
+	cout << endl;
+	
+}
